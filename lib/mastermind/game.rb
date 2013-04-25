@@ -1,9 +1,13 @@
 module Mastermind
   class Game
+    def initialize(size=5, code_generator=Mastermind::CodeGenerator.new)
+      @code_generator = code_generator
+      @size = size
+      self.new_game
+    end
     
-    def initialize
-      @number_of_remaining_guesses = 20
-      @submitted_guesses = []
+    def secret_code
+      @secret_code
     end
     
     def number_of_remaining_guesses
@@ -21,5 +25,10 @@ module Mastermind
       end
     end
     
+    def new_game
+      @number_of_remaining_guesses = 5
+      @submitted_guesses = []      
+      @secret_code = @code_generator.random_code(@size)
+    end
   end
 end

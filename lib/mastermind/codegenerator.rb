@@ -2,8 +2,16 @@ module Mastermind
 
   class CodeGenerator
     
-    def getRandomCode(size)
-      [1]*size
+    def random_code(size)
+      code = []
+      (0...size).each do
+        code << random_number
+      end
+      code
+    end
+    
+    def random_number
+      rand(10)
     end
     
   end

@@ -1,6 +1,25 @@
-guess = [1, 1, 3, 3]
-secret_code = [4, 4, 1, 1]
+class Hello
+  
+  def talk
+    self.say
+  end
+  
+  def say
+    "something"
+  end
+  
+end
 
+describe Hello do
 
-exact = guess & secret_code
-puts exact
+  
+  
+  it "returns hello" do
+#    Hello.stub!(:say).and_return("hello world")
+    @hello = Hello.new
+    @hello.stub(:say).and_return("hello world")
+#    Hello.should_receive(:say).and_return("hello world")
+    answer = @hello.talk
+    answer.should == "hello world"
+  end
+end
