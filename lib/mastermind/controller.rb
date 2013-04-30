@@ -1,8 +1,8 @@
 require 'mastermind/game'
 require 'mastermind/code_factory'
-require 'mastermind/codeparser'
+require 'mastermind/code_parser'
 require 'mastermind/content'
-require 'mastermind/resultconverter'
+require 'mastermind/result_converter'
 module Mastermind
   
   class Controller

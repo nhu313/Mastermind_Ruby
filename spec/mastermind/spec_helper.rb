@@ -12,8 +12,8 @@ end
 
 require 'mastermind/code'
 require 'mastermind/code_factory'
-require 'mastermind/codeparser'
+require 'mastermind/code_parser'
 require 'mastermind/content'
 require 'mastermind/controller'
 require 'mastermind/game'
-require 'mastermind/resultconverter'
+require 'mastermind/result_converter'
