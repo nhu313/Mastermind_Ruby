@@ -8,6 +8,10 @@ describe Mastermind::Controller do
     @controller = Mastermind::Controller.new(@input, @output, @game)
   end
   
+  it "" do
+    
+  end
+  
   it "prints a win message when the player win" do
     win_message = "winner!"
     
@@ -113,4 +117,6 @@ describe Mastermind::Controller do
     
     @controller.is_valid_guess(guess).should be_true   
   end
+  
+  
 end

@@ -3,6 +3,8 @@ require 'mastermind/code_factory'
 require 'mastermind/code_parser'
 require 'mastermind/content'
 require 'mastermind/result_converter'
+require 'mastermind/code'
+
 module Mastermind
   
   class Controller
@@ -24,13 +26,12 @@ module Mastermind
       while (game.in_progress)
         output.print("\n" + content.number_of_remaining_guesses(game.number_of_remaining_guesses))
         output.print(content.input_message)
-        output.print(game.secret_code) #to remove
         
         user_input = input.gets
         guess = input_parser.parse(user_input)
       
         if is_valid_guess(guess)
-          result = game.submit_guess(guess)
+          result = game.submit_guess(Mastermind::Code.new(guess))
           print_submitted_guess_result(result)
         else
           output.print(content.incorrect_input+"\n")
