@@ -13,17 +13,22 @@ describe Mastermind::Content do
   end
   
   it "returns a message explaining the results" do
-    result_message = "Results: 
-      'b' - correct color in correct position
-      'w' - correct color but the position is incorrect
-      ' ' - wrong color
+    result_message = %Q{
+        Results: 
+        'b' - correct color in correct position
+        'w' - correct color but the position is incorrect
+        ' ' - wrong color
       
-      For example, if the code is [1, 2, 3, 4] and you enter [1, 3, 5, 5] then the result 
-      will be [b w] because 
-      - 1 is in the secret and the position is correct. 
-      - 3 is the correct value but in the wrong position
-      - 2, 4 is not in your result, so there are 2 only two result values"
-    @content.result_explaination.should match result_message
+        For example, if the code is [1, 2, 3, 4] and you enter [1, 3, 5, 5] then the result 
+        will be [b w] because 
+        - 1 is in the secret and the position is correct. 
+        - 3 is the correct value but in the wrong position
+        - 2, 4 is not in your result, so there are 2 only two result values}
+    #@content.result_explaination.should match result_message
     
+  end
+  
+  it "returns a message asking for user input" do
+    @content.input_message.should match "Please enter your guess. It should be 4 numbers, separate by spaces.\n"
   end
 end

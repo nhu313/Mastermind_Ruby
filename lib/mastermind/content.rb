@@ -28,6 +28,29 @@ module Mastermind
       }
     end
     
+    def input_message
+      message = "Please enter your guess. It should be 4 repeater numbers from 0-9, separate by spaces.\n"
+    end
+    
+    def separator
+      "-----------------------------------------------------------"
+    end
+    
+    def win_message
+      "Congratulation! You won!"
+    end
+
+    def lose_message(secret_code)
+      "You lost! The secret code is " + secret_code
+    end
+    
+    def incorrect_input
+      "Unable to parse your input. Please make sure it is in the right format"
+    end
+    
+    def already_submitted_input
+      "You already submitted this guess. Please enter something else."
+    end
   end
   
 end
