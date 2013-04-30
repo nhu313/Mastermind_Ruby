@@ -1,4 +1,4 @@
-require 'mastermind/resultconverter'
+require 'mastermind/spec_helper'
 
 describe Mastermind::ResultConverter do
   before(:each) do

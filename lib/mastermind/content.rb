@@ -5,17 +5,14 @@ module Mastermind
       message = %Q{
       Welcome to Mastermind! The game will create a secret code with 4 numbers. The number is from 
       0-9. The object of the game is for you to solve the code in 10 guesses. The numbers can 
-      repeat. After entering your guess, the system will let you know if your result is correct or not. 
-      
-
-      Let's start!
+      repeat. After entering your guess, the system will let you know if your result is correct or not.       
       }
       
     end
     
-    def result_explaination
+    def result_explaination(size)
       message = %Q{
-        Results: 
+        Meaning of results: 
         'b' - correct color in correct position
         'w' - correct color but the position is incorrect
         ' ' - wrong color
@@ -25,11 +22,13 @@ module Mastermind
         - 1 is in the secret and the position is correct. 
         - 3 is the correct value but in the wrong position
         - 2, 4 is not in your result, so there are 2 only two result values
+        
+        Your guesses should have #{size} numbers from 0-9, separate by spaces.
       }
     end
     
     def input_message
-      message = "Please enter your guess. It should be 4 repeater numbers from 0-9, separate by spaces.\n"
+      message = "Please enter your guess. \n"
     end
     
     def separator
@@ -41,15 +40,19 @@ module Mastermind
     end
 
     def lose_message(secret_code)
-      "You lost! The secret code is " + secret_code
+      "You lost! The secret code is " << secret_code.to_s
     end
     
     def incorrect_input
-      "Unable to parse your input. Please make sure it is in the right format"
+      "Unable to parse your input. Please make sure it is in the correct format."
     end
     
-    def already_submitted_input
+    def already_submitted_guess
       "You already submitted this guess. Please enter something else."
+    end
+    
+    def number_of_remaining_guesses(number_of_guesses)
+      "You have #{number_of_guesses} guess(es) left. "
     end
   end
   

@@ -1,13 +1,16 @@
+require 'mastermind/code'
+
 module Mastermind
 
-  class CodeGenerator
+  class CodeFactory
     
     def random_code(size)
       code = []
       (0...size).each do
         code << random_number
       end
-      code
+      
+      Mastermind::Code.new(code)
     end
     
     def random_number

@@ -1,4 +1,4 @@
-require 'mastermind/codeparser'
+require 'mastermind/spec_helper'
 
 describe Mastermind::CodeParser do
   

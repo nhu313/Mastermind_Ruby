@@ -1,5 +1,5 @@
 require 'mastermind/game'
-require 'mastermind/codegenerator'
+require 'mastermind/code_factory'
 require 'mastermind/codeparser'
 require 'mastermind/content'
 require 'mastermind/resultconverter'
@@ -22,7 +22,8 @@ module Mastermind
       print_header
       
       while (game.in_progress)
-        output.print("\n" + content.input_message)
+        output.print("\n" + content.number_of_remaining_guesses(game.number_of_remaining_guesses))
+        output.print(content.input_message)
         output.print(game.secret_code) #to remove
         
         user_input = input.gets
@@ -32,15 +33,22 @@ module Mastermind
           result = game.submit_guess(guess)
           print_submitted_guess_result(result)
         else
-          output.print(content.incorrect_input)
+          output.print(content.incorrect_input+"\n")
         end
       end
       
       print_game_result
     end
     
+    def print_header
+      output.print(content.welcome_message)
+      output.print(content.result_explaination(game.size))
+      output.print(content.separator)      
+    end
+    
+    
     def is_valid_guess(guess)
-      return guess && guess.size == 4
+      return guess && guess.size == @game.size
     end
     
     def print_submitted_guess_result(result)
@@ -48,15 +56,9 @@ module Mastermind
         result_output = result_converter.to_string(result)
         output.print(result_output + "\n")
       else
-        output.print(content.already_submitted_input)
+        output.print(content.already_submitted_guess)
       end
-    end
-    
-    def print_header
-      output.print(content.welcome_message)
-      output.print(content.result_explaination)
-      output.print(content.separator)      
-    end
+    end 
     
     def print_game_result
       if game.player_win
@@ -66,10 +68,7 @@ module Mastermind
       end
       output.print("\n")      
     end
-    
-    private 
-    attr_accessor :input, :output, :game
-    
+
   end
   
 end

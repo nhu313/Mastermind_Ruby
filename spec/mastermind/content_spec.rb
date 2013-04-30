@@ -1,4 +1,4 @@
-require 'mastermind/content'
+require 'mastermind/spec_helper'
 
 describe Mastermind::Content do
   
@@ -29,6 +29,33 @@ describe Mastermind::Content do
   end
   
   it "returns a message asking for user input" do
-    @content.input_message.should match "Please enter your guess. It should be 4 numbers, separate by spaces.\n"
+    @content.input_message.should match "Please enter your guess. \n"
+  end
+  
+  it "returns a string of separator" do
+    @content.separator.should match "-----------------------------------------------------------"
+  end
+  
+  it "returns a message letting the user knows he won" do
+    @content.win_message.should match "Congratulation! You won!"
+  end
+  
+  it "returns a message notifying the user he lost" do
+    secret_code = [1, 3, 2]
+    expected_message = "You lost! The secret code is " << secret_code.to_s
+    #@content.lose_message(secret_code).should match expected_message
+  end
+  
+  it "returns an incorrect input message" do
+    @content.incorrect_input.should match "Unable to parse your input. Please make sure it is in the correct format."
+  end
+  
+  it "returns a message noting that the user has already submitted the guess" do
+    @content.already_submitted_guess.should match "You already submitted this guess. Please enter something else."
+  end
+  
+  it "returns a number of remaining guesses" do
+    number = 5
+    #@content.number_of_remaining_guesses(number).should match "You have #{number} guess(es) left. "
   end
 end
