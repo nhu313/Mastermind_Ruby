@@ -14,17 +14,21 @@ describe Mastermind::Content do
   
   it "returns a message explaining the results" do
     result_message = %Q{
-        Results: 
-        'b' - correct color in correct position
-        'w' - correct color but the position is incorrect
-        ' ' - wrong color
+      Meaning of results: 
+      'b' - correct color in correct position
+      'w' - correct color but the position is incorrect
+      ' ' - wrong color
+    
+      For example, if the code is [1, 2, 3, 4] and you enter [1, 3, 5, 5] then the result 
+      will be [b w] because 
+      - 1 is in the secret and the position is correct. 
+      - 3 is the correct value but in the wrong position
+      - 2, 4 is not in your result, so there are 2 only two result values
       
-        For example, if the code is [1, 2, 3, 4] and you enter [1, 3, 5, 5] then the result 
-        will be [b w] because 
-        - 1 is in the secret and the position is correct. 
-        - 3 is the correct value but in the wrong position
-        - 2, 4 is not in your result, so there are 2 only two result values}
-    #@content.result_explaination.should match result_message
+      Your guesses should have 4 numbers from 0-9, separate by spaces.
+    }
+
+#    @content.result_explaination(4).should match result_message
     
   end
   
@@ -47,7 +51,7 @@ describe Mastermind::Content do
   end
   
   it "returns an incorrect input message" do
-    @content.incorrect_input.should match "Unable to parse your input. Please make sure it is in the correct format."
+    @content.bad_input.should match "Unable to parse your input. Please make sure it is in the correct format."
   end
   
   it "returns a message noting that the user has already submitted the guess" do

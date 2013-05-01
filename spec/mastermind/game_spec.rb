@@ -103,4 +103,15 @@ describe Mastermind::Game do
     @game.submit_guess(guess)
     @game.number_of_remaining_guesses.should == $number_of_guesses - 1
   end
+  
+  it "returns true when user submit a guess twice" do
+    guess = Mastermind::Code.new([1, 2])
+    @game.submit_guess(guess)
+    @game.has_guess_been_submitted(guess).should be_true
+  end
+  
+  it "returns false when asked if a guess has been submit when it hasn't" do
+    guess = Mastermind::Code.new([1, 2])
+    @game.has_guess_been_submitted(guess).should be_false
+  end
 end

@@ -43,7 +43,7 @@ module Mastermind
       "You lost! The secret code is " << secret_code.to_s
     end
     
-    def incorrect_input
+    def bad_input
       "Unable to parse your input. Please make sure it is in the correct format."
     end
     

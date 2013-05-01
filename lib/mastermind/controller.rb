@@ -31,14 +31,24 @@ module Mastermind
         guess = input_parser.parse(user_input)
       
         if is_valid_guess(guess)
-          result = game.submit_guess(Mastermind::Code.new(guess))
-          print_submitted_guess_result(result)
+          submit_guess(guess)
         else
-          output.print(content.incorrect_input+"\n")
+          output.print(content.bad_input << "\n")
         end
       end
       
       print_game_result
+    end
+    
+    def submit_guess(guess)
+      guess_code = Mastermind::Code.new(guess)
+      if (game.has_guess_been_submitted(guess_code))
+        output.print(content.already_submitted_guess)            
+      else
+        result = game.submit_guess(guess_code)
+        result_output = result_converter.to_string(result)
+        output.print(result_output << "\n")
+      end
     end
     
     def print_header
@@ -47,20 +57,10 @@ module Mastermind
       output.print(content.separator)      
     end
     
-    
     def is_valid_guess(guess)
       return guess && guess.size == @game.size
     end
-    
-    def print_submitted_guess_result(result)
-      if (result)
-        result_output = result_converter.to_string(result)
-        output.print(result_output + "\n")
-      else
-        output.print(content.already_submitted_guess)
-      end
-    end 
-    
+        
     def print_game_result
       if game.player_win
         output.print(content.win_message)

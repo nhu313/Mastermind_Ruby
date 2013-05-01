@@ -49,5 +49,9 @@ module Mastermind
     def to_s
       value.to_s
     end
+    
+    def == (other_code)
+      value == other_code.value
+    end
   end  
 end

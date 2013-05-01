@@ -22,7 +22,7 @@ module Mastermind
     
     def submit_guess(guess)
       results = nil
-      if add_guess(guess)
+      if in_progress && not(has_guess_been_submitted(guess))
         submitted_guesses << guess
         @number_of_remaining_guesses -= 1
         results = secret_code.results(guess)
@@ -30,8 +30,8 @@ module Mastermind
       results
     end
     
-    def add_guess(guess)
-      in_progress && submitted_guesses.include?(guess) == false
+    def has_guess_been_submitted(guess)
+      submitted_guesses.include?(guess)
     end
      
     def in_progress
