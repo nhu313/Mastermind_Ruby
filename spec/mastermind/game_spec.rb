@@ -1,30 +1,41 @@
 require 'mastermind/spec_helper'
 
 describe Mastermind::Game do
-  $number_of_guesses = 5
-  $size = 3
   
   before(:each) do
-    @game = Mastermind::Game.new($size, $number_of_guesses)
+    @number_of_guesses = 5
+    @size = 3
+    @game = Mastermind::Game.new(@size, @number_of_guesses)
+  end
+  
+  describe "initial state" do
+    #move tests in here
+  end
+  
+  describe "submitting a guess" do
+    #move tests in here
   end
   
   it "tests the default game size is the same on the one in the property file" do
-    @game = Mastermind::Game.new()
-    @game.size == SIZE
-    @game.number_of_remaining_guesses = NUMBER_OF_GUESSES
+    @game = Mastermind::Game.new
+    @game.size.should == Mastermind::Game::SIZE
+    @game.number_of_remaining_guesses.should == Mastermind::Game::NUMBER_OF_GUESSES
   end
     
   it "starts with 5 guesses remaining" do
-    @game.number_of_remaining_guesses.should == $number_of_guesses
+    @game.number_of_remaining_guesses.should == @number_of_guesses
   end
   
   it "uses a guess when submitting a guess" do
     @game.submit_guess(Mastermind::Code.new([]))
-    @game.number_of_remaining_guesses.should == $number_of_guesses - 1
+    @game.number_of_remaining_guesses.should == @number_of_guesses - 1
   end
   
   it "does nothing when number of remaining guess is 0" do
-    0.upto($number_of_guesses) do |i|
+    @number_of_guesses.times do |i| # loops 0 through 4
+    # (0..@number_of_guesses).each do |i| # loops 0 through 5
+    # (0...@number_of_guesses).each do |i| # loops 0 through 4
+    # 0.upto(@number_of_guesses) do |i| # loops 0 through 5
       @game.submit_guess(Mastermind::Code.new([i]))
     end
     @game.number_of_remaining_guesses.should == 0    
@@ -52,7 +63,7 @@ describe Mastermind::Game do
   
   it "stops taking guesses when number of remaining guess is 0" do
     guesses = []
-    (0...$number_of_guesses).each do |i|
+    (0...@number_of_guesses).each do |i|
       guess = Mastermind::Code.new([i])
       @game.submit_guess(guess)
       guesses << guess
@@ -62,26 +73,41 @@ describe Mastermind::Game do
     @game.submitted_guesses.should ==  guesses
   end
   
-  it "tests attributes are set to default when reset is called" do
-    secret_code_before_new_game = Mastermind::Code.new([1, 2, 3])
-    secret_code_after_new_game = Mastermind::Code.new([5, 3, 5])
+  describe "when resetting the game" do
+    before(:each) do
+      secret_code_before_new_game = Mastermind::Code.new([1, 2, 3])
+      @secret_code_after_new_game = Mastermind::Code.new([5, 3, 5])
     
-    @game = Mastermind::Game.new($size, $number_of_guesses, mock_code_factory(secret_code_before_new_game, secret_code_after_new_game))
+      @game = Mastermind::Game.new(@size, @number_of_guesses, mock_code_factory(secret_code_before_new_game, @secret_code_after_new_game))
+    end
     
-    @game.submit_guess(Mastermind::Code.new([4]))
+    it "clears the submitted guesses" do    
+      @game.submit_guess(Mastermind::Code.new([4]))
+      @game.reset_game
     
-    @game.reset_game
+      @game.submitted_guesses.should == []
+    end
     
-    @game.number_of_remaining_guesses.should == $number_of_guesses
-    @game.secret_code.should == secret_code_after_new_game
-    @game.submitted_guesses.should == []
-
+    it "resets the number of remaining guesses" do    
+      @game.submit_guess(Mastermind::Code.new([4]))
+      @game.reset_game
+    
+      @game.number_of_remaining_guesses.should == @number_of_guesses
+    end
+    
+    it "generates a new secret code" do    
+      @game.reset_game
+    
+      @game.secret_code.should == @secret_code_after_new_game
+    end
   end
   
   def mock_code_factory(before_code, after_code)
     code_factory = mock(Mastermind::CodeFactory)
-    code_factory.should_receive(:random_code).with($size).and_return(before_code, after_code)
+    code_factory.should_receive(:random_code).with(@size).and_return(before_code, after_code)
     code_factory
+    
+    # mock(Mastermind::CodeFactory, :random_code => only_code) # N/A here because only handles one return value
   end
   
   it "checks if the game is in progress when the secret code has already been submitted" do
@@ -107,7 +133,7 @@ describe Mastermind::Game do
     guess = Mastermind::Code.new([1, 2])
     @game.submit_guess(guess)
     @game.submit_guess(guess)
-    @game.number_of_remaining_guesses.should == $number_of_guesses - 1
+    @game.number_of_remaining_guesses.should == @number_of_guesses - 1
   end
   
   it "returns true when user submit a guess twice" do

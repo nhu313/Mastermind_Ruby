@@ -1,9 +1,12 @@
 require 'mastermind/code'
 require 'mastermind/code_factory'
-require 'mastermind/game_properties'
 
 module Mastermind
   class Game
+    
+    SIZE = 4
+    NUMBER_OF_GUESSES = 10
+    
     attr_accessor :number_of_guesses, :number_of_remaining_guesses, :size, :code_factory, :secret_code, :submitted_guesses
     
     def initialize(code_size=SIZE, number_of_guesses=NUMBER_OF_GUESSES, code_factory = Mastermind::CodeFactory.new)
@@ -26,7 +29,7 @@ module Mastermind
       
       submitted_guesses << guess
       @number_of_remaining_guesses -= 1
-      results = secret_code.results(guess)
+      secret_code.results(guess)
     end
     
     def has_guess_been_submitted?(guess)
@@ -36,7 +39,6 @@ module Mastermind
     def over?
       return true if has_winner?
       return true if number_of_remaining_guesses < 1
-      
       return false
     end
     
