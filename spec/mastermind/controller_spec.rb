@@ -15,7 +15,7 @@ describe Mastermind::Controller do
   it "prints a win message when the player win" do
     win_message = "winner!"
     
-    @game.should_receive(:player_win).and_return(true)
+    @game.should_receive(:player_win?).and_return(true)
     
     content = mock(Mastermind::Content)
     content.should_receive(:win_message).and_return(win_message)
@@ -30,7 +30,7 @@ describe Mastermind::Controller do
     lost = "loser!"
     secret_code = Mastermind::Code.new([1, 4])
     
-    @game.should_receive(:player_win).and_return(false)
+    @game.should_receive(:player_win?).and_return(false)
     @game.should_receive(:secret_code).and_return(secret_code)
     
     content = mock(Mastermind::Content)
@@ -44,7 +44,7 @@ describe Mastermind::Controller do
   
   it "prints guess is already submitted message when user submit twice" do
     guess = [1, 9, 4]    
-    @game.should_receive(:has_guess_been_submitted).with(Mastermind::Code.new(guess)).and_return(true)
+    @game.should_receive(:has_guess_been_submitted?).with(Mastermind::Code.new(guess)).and_return(true)
    
    message = "already submitted guess"
    
@@ -61,7 +61,7 @@ describe Mastermind::Controller do
     guess = Mastermind::Code.new([4, 3, 5])
     
     result = [1, 2, 3]
-    @game.should_receive(:has_guess_been_submitted).with(guess).and_return(false)
+    @game.should_receive(:has_guess_been_submitted?).with(guess).and_return(false)
     @game.should_receive(:submit_guess).with(guess).and_return(result)
     
     result_message = "successful result"

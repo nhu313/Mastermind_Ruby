@@ -42,7 +42,7 @@ module Mastermind
     
     def submit_guess(guess)
       guess_code = Mastermind::Code.new(guess)
-      if (game.has_guess_been_submitted(guess_code))
+      if game.has_guess_been_submitted?(guess_code)
         output.print(content.already_submitted_guess)            
       else
         result = game.submit_guess(guess_code)
@@ -62,7 +62,7 @@ module Mastermind
     end
         
     def print_game_result
-      if game.player_win
+      if game.player_win?
         output.print(content.win_message)
       else
         output.print(content.lose_message(game.secret_code.to_s))

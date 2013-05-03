@@ -91,16 +91,16 @@ describe Mastermind::Game do
   end
   
   it "returns true if the player broke the code" do
-    @game.player_win.should be_false
+    @game.should_not have_winner
     @game.submit_guess(@game.secret_code)
-    @game.player_win.should be_true
+    @game.should have_winner
   end
 
   it "returns false if the player didn't submit a correct answer" do
     @game.secret_code = Mastermind::Code.new([1, 1])
     guess = Mastermind::Code.new([5,3])
     @game.submit_guess(guess)
-    @game.player_win.should be_false
+    @game.has_winner?.should be_false
   end
   
   it "doesn't decrement the guess count when user submit the same guess twice" do
@@ -113,11 +113,11 @@ describe Mastermind::Game do
   it "returns true when user submit a guess twice" do
     guess = Mastermind::Code.new([1, 2])
     @game.submit_guess(guess)
-    @game.has_guess_been_submitted(guess).should be_true
+    @game.has_guess_been_submitted?(guess).should be_true
   end
   
   it "returns false when asked if a guess has been submit when it hasn't" do
     guess = Mastermind::Code.new([1, 2])
-    @game.has_guess_been_submitted(guess).should be_false
+    @game.has_guess_been_submitted?(guess).should be_false
   end
 end

@@ -22,25 +22,25 @@ module Mastermind
     
     def submit_guess(guess)
       return if over?
-      return if has_guess_been_submitted(guess)
+      return if has_guess_been_submitted?(guess)
       
       submitted_guesses << guess
       @number_of_remaining_guesses -= 1
       results = secret_code.results(guess)
     end
     
-    def has_guess_been_submitted(guess)
+    def has_guess_been_submitted?(guess)
       submitted_guesses.include?(guess)
     end
      
     def over?
-      return true if player_win
+      return true if has_winner?
       return true if number_of_remaining_guesses < 1
       
       return false
     end
     
-    def player_win
+    def has_winner?
       submitted_guesses.include?(secret_code)
     end
   end
