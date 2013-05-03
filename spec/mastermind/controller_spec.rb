@@ -126,14 +126,14 @@ describe Mastermind::Controller do
     @controller.should_receive(:print_header).once
     @controller.should_receive(:print_game_result).once
     
-   @game.should_receive(:in_progress).once.and_return(false)   
+   @game.should_receive(:over?).once.and_return(true)   
    @controller.start_game 
   end 
   
   it "gets user inputs when game is in progress and user enters bad input" do
     guess = "1 3 4"
     
-   @game.should_receive(:in_progress).and_return(true, false)
+   @game.should_receive(:over?).and_return(false, true)
    @game.should_receive(:number_of_remaining_guesses).once.and_return(0)
    
    input_parser = mock(Mastermind::CodeParser.new)
@@ -159,7 +159,7 @@ describe Mastermind::Controller do
     guess = "1 3 4 5"
     parsed_guess = [1, 3, 4, 5]
     
-   @game.should_receive(:in_progress).and_return(true, false)
+   @game.should_receive(:over?).and_return(false, true)
    @game.should_receive(:number_of_remaining_guesses).once.and_return(0)
    
    input_parser = mock(Mastermind::CodeParser.new)

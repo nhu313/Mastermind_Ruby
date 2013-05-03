@@ -23,7 +23,7 @@ module Mastermind
     def start_game
       print_header
       
-      while (game.in_progress)
+      until game.over?
         output.print("\n" + content.number_of_remaining_guesses(game.number_of_remaining_guesses))
         output.print(content.input_message)
         

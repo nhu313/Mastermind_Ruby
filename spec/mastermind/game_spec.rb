@@ -7,6 +7,12 @@ describe Mastermind::Game do
   before(:each) do
     @game = Mastermind::Game.new($size, $number_of_guesses)
   end
+  
+  it "tests the default game size is the same on the one in the property file" do
+    @game = Mastermind::Game.new()
+    @game.size == SIZE
+    @game.number_of_remaining_guesses = NUMBER_OF_GUESSES
+  end
     
   it "starts with 5 guesses remaining" do
     @game.number_of_remaining_guesses.should == $number_of_guesses
@@ -79,9 +85,9 @@ describe Mastermind::Game do
   end
   
   it "checks if the game is in progress when the secret code has already been submitted" do
-   @game.in_progress.should be_true
+   @game.should_not be_over
    @game.submit_guess(@game.secret_code)
-   @game.in_progress.should be_false
+   @game.should be_over
   end
   
   it "returns true if the player broke the code" do
@@ -89,7 +95,7 @@ describe Mastermind::Game do
     @game.submit_guess(@game.secret_code)
     @game.player_win.should be_true
   end
-  
+
   it "returns false if the player didn't submit a correct answer" do
     @game.secret_code = Mastermind::Code.new([1, 1])
     guess = Mastermind::Code.new([5,3])
