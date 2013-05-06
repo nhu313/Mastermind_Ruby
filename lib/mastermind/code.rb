@@ -4,10 +4,6 @@ module Mastermind
   class Code
     attr_reader :value
     
-    private
-    attr_writer :value
-    
-    public
     def initialize(code_value)
       @value = code_value
     end
@@ -19,6 +15,16 @@ module Mastermind
       Result.new(exact_match, incorrect_position_match, no_match)
     end
     
+    def to_s
+      value.to_s
+    end
+
+    def == (other_code)
+      value == other_code.value
+    end
+
+    private
+
     def count_exact_match(guess)
       guess_value = guess.value
       number_of_exact_match = 0
@@ -41,17 +47,12 @@ module Mastermind
       
       incorrect_position_match = number_of_position_match - count_exact_match(guess)
     end
-    
+   
     def size
       value.size
     end
+
+    attr_writer :value
     
-    def to_s
-      value.to_s
-    end
-    
-    def == (other_code)
-      value == other_code.value
-    end
   end  
 end
