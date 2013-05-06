@@ -27,13 +27,21 @@ module Mastermind
         output.print("\n" + content.number_of_remaining_guesses(game.number_of_remaining_guesses))
         output.print(content.input_message)
         
-        user_input = input.gets
-        guess = input_parser.parse(user_input)
-      
-        if is_valid_guess(guess)
-          submit_guess(guess)
+        user_input = (input.gets).downcase.chomp
+
+        if user_input == 'i'
+          output.print(content.result_explaination)
+        elsif user_input == 'n'
+          game.reset_game
+          output.print(content.new_game)
         else
-          output.print(content.bad_input << "\n")
+          guess = input_parser.parse(user_input)
+      
+          if is_valid_guess(guess)
+            submit_guess(guess)
+          else
+            output.print(content.bad_input << "\n")
+          end
         end
       end
       

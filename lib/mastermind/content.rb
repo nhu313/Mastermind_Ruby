@@ -17,7 +17,7 @@ module Mastermind
         'w' - correct color but the position is incorrect
         ' ' - wrong color
       
-        For example, if the code is [1, 2, 3, 4] and you enter [1, 3, 5, 5] then the result 
+        For example, if the code is 1, 2, 3, 4 and you enter 1, 3, 5, 5 then the result 
         will be [b w] because 
         - 1 is in the secret and the position is correct. 
         - 3 is the correct value but in the wrong position
@@ -54,6 +54,9 @@ module Mastermind
     def number_of_remaining_guesses(number_of_guesses)
       "You have #{number_of_guesses} guess(es) left. "
     end
+    
+    def new_game
+      "Starting new game."
+    end
   end
-  
 end

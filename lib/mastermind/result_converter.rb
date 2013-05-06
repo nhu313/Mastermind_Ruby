@@ -7,9 +7,9 @@ module Mastermind
       
       results_chars.each_with_index do |value, value_index|
         value_count = results[value_index] 
-        1.upto(value_count).each do |i|
+        (0...value_count).each do |i|
           results_string += value
-          results_string += " " if i < value_count
+          results_string += " " if i < value_count - 1
         end
         
         results_string += " " if (results_string.size > 0)

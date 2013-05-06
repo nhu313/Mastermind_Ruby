@@ -7,7 +7,7 @@ module Mastermind
     SIZE = 4
     NUMBER_OF_GUESSES = 10
     
-    attr_accessor :number_of_guesses, :number_of_remaining_guesses, :size, :code_factory, :secret_code, :submitted_guesses
+    attr_accessor :number_of_guesses, :size, :code_factory, :secret_code, :submitted_guesses
     
     def initialize(code_size=SIZE, number_of_guesses=NUMBER_OF_GUESSES, code_factory = Mastermind::CodeFactory.new)
       @number_of_guesses = number_of_guesses
@@ -18,7 +18,6 @@ module Mastermind
     end
     
     def reset_game
-      @number_of_remaining_guesses = number_of_guesses
       @submitted_guesses = []
       @secret_code = code_factory.random_code(size)
     end
@@ -28,7 +27,6 @@ module Mastermind
       return if has_guess_been_submitted?(guess)
       
       submitted_guesses << guess
-      @number_of_remaining_guesses -= 1
       secret_code.results(guess)
     end
     
@@ -44,6 +42,10 @@ module Mastermind
     
     def has_winner?
       submitted_guesses.include?(secret_code)
+    end
+    
+    def number_of_remaining_guesses
+      number_of_guesses - submitted_guesses.size
     end
   end
 end
