@@ -72,13 +72,13 @@ describe Mastermind::Console do
     end
     
     it "is true when user enters y for a new game" do
-      input = 'y'
+      input = "y"
       @input.should_receive(:gets).and_return(input)
       @console.new_game?.should be_true
     end
     
     it "is false when user enters n for a new game" do
-      input = 'n'
+      input = "n"
       @input.should_receive(:gets).and_return(input)      
       @console.new_game?.should be_false
     end
