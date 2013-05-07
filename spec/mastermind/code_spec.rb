@@ -2,102 +2,122 @@ require 'mastermind/spec_helper'
 
 describe Mastermind::Code do      
 
-  describe "test count results" do
-    after(:each) do
-      guess_code = Mastermind::Code.new(@guess)
-      secret_code = Mastermind::Code.new(@secret)
-      expected_results = Mastermind::Result.new(@results[0], @results[1], @results[2])
+  def results_for(array_one, array_two)
+    code_one = Mastermind::Code.new(array_one)
+    code_two = Mastermind::Code.new(array_two)
+    code_one.results(code_two)
+  end
+
+  before(:each) do
+    @secret_values = [2, 5, 7]
+  end
+
+  describe "the number of pegs that match exactly" do
+    it "is the size of the code when all pegs match exactly" do
+      results_for(@secret_values, [2, 5, 7]).exact_match.should == 3
+    end
     
-      secret_code.results(guess_code).should == expected_results    
+    it "is 0 when there is no exact match and all other pegs are incorrect" do
+      results_for(@secret_values, [1, 1, 1]).exact_match.should == 0
     end
-  
-    it "counts the exact match when all pegs match with more than one peg" do
-      @guess = [2, 5, 7]
-      @secret = [2, 5, 7]
-      @results = [@guess.size, 0, 0]
+    
+    it "is 0 when there is no exact match and all other pegs are in the wrong position" do
+      results_for(@secret_values, [7, 2, 5]).exact_match.should == 0
     end
-  
-    it "counts the exact match when no peg matches for one peg" do
-      @guess = [3]
-      @secret = [1]
-      @results = [0, 0, @guess.size]
+    
+    it "is 1 when the only exact match is in the first peg" do
+      results_for(@secret_values, [2, 1, 1]).exact_match.should == 1
     end
-  
-    it "counts the exact match when no peg matches with more than one peg" do
-      @guess = [1, 9, 11, 15]
-      @secret = [2, 4, 6, 8]
-      @results = [0, 0, @guess.size]
+    
+    it "is 1 when the only exact match is in the middle peg" do
+      results_for(@secret_values, [1, 5, 1]).exact_match.should == 1
     end
-  
-    it "counts the exact match when 1 peg matches the number and position" do
-      @guess = [1, 2]
-      @secret = [3, 2]
-      @results = [1, 0, 1]
+    
+    it "is 1 when the only exact match is the last peg of the code" do
+      results_for(@secret_values, [1, 1, 7]).exact_match.should == 1
     end
-  
-    it "counts the exact match when 1+ pegs match the number and position" do
-      @guess = [1, 5, 3, 7, 4]
-      @secret = [1, 2, 3, 7, 9]
-      @results = [3, 0, 2]
-    end
-  
-    it "counts match in wrong position for one peg" do
-      @guess = [1, 2]
-      @secret = [2, 3]
-      @results = [0, 1, 1]
-    end
-  
-    it "counts match in wrong position for 1+ pegs" do
-      @guess = [11, 7, 18, 1, 3, 2, 21]
-      @secret = [21, 2, 3, 5, 9, 18, 11]
-      @results = [0, 5, 2]
-    end
-  
-    it "counts match in wrong position when all pegs match" do
-      @guess = [2, 3]
-      @secret = [3, 2]
-      @results = [0, @guess.size, 0]
-    end
-  
-    it "counts match in the wrong position when there are two matches of the same number" do
-      @guess = [1, 1, 4, 5]
-      @secret = [3, 6, 1, 1]
-      @results = [0, 2, 2]
-    end
-  
-    it "counts match in the wrong position when there are 2 matches of 2 numbers" do
-      @guess = [1, 1, 1, 2, 2]
-      @secret = [2, 2, 2, 1, 1]
-      @results = [0, 4, 1]
-    end
-  
-    it "counts results correctly when all pegs match" do
-      @guess = [1, 1]
-      @secret = [1, 1]
-      @results = [@guess.size, 0, 0]
-    end
-  
-    it "counts reults correctly when all pegs are incorrect" do
-      @guess = (1..10).to_a
-      @secret = (11..20).to_a
-      @results = [0, 0, @secret.size]
-    end
-  
-    it "counts results correctly when all pegs are in the wrong position" do
-      @guess = [1, 2, 3, 4]
-      @secret = [4, 3, 2, 1]
-      @results = [0, @guess.size, 0]
-    end
-  
-    it "counts results correctly when there exact match, wrong position, and incorrect pegs" do
-      @guess = [1, 2, 3, 4]
-      @secret = [4, 2, 7, 8]
-      @results = [1, 1, 2]
+    
+    it "is 2 when there are 2 exact match" do
+      results_for(@secret_values, [2, 5, 1])
     end
   end
   
-  describe "test code equality" do
-    it "tests when codes are equal" do
+  describe "the number of pegs that are in the incorrect position" do
+    it "is 0 when all the pegs match" do
+      results_for(@secret_values, [2, 5, 7]).incorrect_position_match.should == 0
+    end
+    
+    it "is 0 when none of the pegs match" do
+      results_for(@secret_values, [1, 1, 1]).incorrect_position_match.should == 0
+    end
+    
+    it "is 1 when 1 peg matches the position and all the other pegs are incorrect" do
+      results_for(@secret_values, [5, 1, 1]).incorrect_position_match.should == 1
+    end
+    
+    it "is 2 when 2 pegg match the position and all the other pegs are in the wrong positions" do
+      results_for(@secret_values, [5, 7, 1]).incorrect_position_match.should == 2
+    end
+    
+    it "is the size of the code when all pegs match but are in the incorrect positions" do
+      results_for(@secret_values, [7, 2, 5]).incorrect_position_match.should == 3
+    end
+  end
+  
+  describe "test no match" do
+    it "is 0 when all pegs match" do
+      results_for(@secret_values, [2, 5, 7]).no_match.should == 0
+    end
+    
+    it "is the size of the code when none of the pegs match" do
+      results_for(@secret_values, [1, 1, 1]).no_match.should == 3
+    end
+    
+    it "is 1 when 1 peg is incorrect and all the other pegs are exact match" do
+      results_for(@secret_values, [1, 5, 7]).no_match.should == 1
+    end
+    
+    it "is 1 when 1 peg is incorrect and all the other pegs are in the wrong position" do
+      results_for(@secret_values, [1, 7, 5]).no_match.should == 1
+    end
+    
+    it "is 2 when 2 pegs are incorrect and 1 is an exact match" do
+      results_for(@secret_values, [1, 1, 7]).no_match.should == 2
+    end
+  end
+  
+  describe "counts for match, incorrect position, and no match" do    
+    
+    it "counts match in the wrong position when there are two matches of the same number" do
+      guess = [1, 1, 4, 5]
+      secret_values = [3, 6, 1, 1]
+      results = results_for(secret_values, guess)
+      results.exact_match.should == 0
+      results.incorrect_position_match.should == 2
+      results.no_match == 2
+    end
+  
+    it "counts match in the wrong position when there are 2 matches of 2 numbers" do
+      guess = [1, 1, 1, 2, 2]
+      secret_values = [2, 2, 2, 1, 1]
+      results = results_for(secret_values, guess)
+      results.exact_match.should == 0
+      results.incorrect_position_match.should == 4
+      results.no_match == 1
+    end
+    
+    it "counts results correctly when there exact match, wrong position, and incorrect pegs" do
+      guess = [1, 2, 3, 4]
+      secret_values = [4, 2, 7, 8]
+      results = results_for(secret_values, guess)
+      results.exact_match.should == 1
+      results.incorrect_position_match.should == 1
+      results.no_match == 2
+    end
+  end
+  
+  describe "code equality" do
+    it "is true when the code values are the same" do
       value = [7, 4, 1]
       code1 = Mastermind::Code.new(value)
       code2 = Mastermind::Code.new(value)
@@ -105,18 +125,11 @@ describe Mastermind::Code do
       (code1 == code2).should be_true
     end
   
-    it "tests when codes are not equal" do
+    it "is false when the code values do not match exactly" do
       code1 = Mastermind::Code.new([7, 4, 1])
       code2 = Mastermind::Code.new([7, 4, 11])
     
       (code1 == code2).should be_false
     end
   end
-  
-  it "returns the values of the code on to_s" do
-    code = [1, 4, 5]
-    secret_code = Mastermind::Code.new(code)
-    secret_code.to_s.should == code.to_s
-  end
-  
 end

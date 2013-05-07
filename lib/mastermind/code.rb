@@ -15,12 +15,13 @@ module Mastermind
       Result.new(exact_match, incorrect_position_match, no_match)
     end
     
-    def to_s
-      value.to_s
-    end
-
     def == (other_code)
       value == other_code.value
+    end
+    
+   
+    def size
+      value.size
     end
 
     private
@@ -47,10 +48,7 @@ module Mastermind
       
       incorrect_position_match = number_of_position_match - count_exact_match(guess)
     end
-   
-    def size
-      value.size
-    end
+
 
     attr_writer :value
     

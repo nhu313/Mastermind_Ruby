@@ -1,3 +1,5 @@
+require 'mastermind/code'
+
 module Mastermind
   
   class CodeParser
@@ -8,7 +10,7 @@ module Mastermind
         parse_input << num.to_i if num =~ /\d/
       end
       
-      parse_input.size > 0 ? parse_input : nil
+      parse_input.size > 0 ? Mastermind::Code.new(parse_input) : nil
     end
   end
   

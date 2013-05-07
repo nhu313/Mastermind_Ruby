@@ -8,12 +8,12 @@ describe Mastermind::CodeParser do
   describe "parse guesses input" do
     it "parses correct code input" do
       input = "0 1 2 3 4"
-      @parser.parse(input).should == [0, 1, 2, 3, 4]
+      @parser.parse(input).should == Mastermind::Code.new([0, 1, 2, 3, 4])
     end
 
     it "parses input with extra space in the front and at the end" do
-      input = "   0 1 2 3   "
-      @parser.parse(input).should == [0, 1, 2, 3]
+      input = "   0 1   2 3   "
+      @parser.parse(input).should == Mastermind::Code.new([0, 1, 2, 3])
     end
   end
 

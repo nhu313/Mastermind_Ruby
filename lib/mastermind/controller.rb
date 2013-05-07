@@ -1,81 +1,70 @@
 require 'mastermind/game'
-require 'mastermind/code_factory'
-require 'mastermind/code_parser'
-require 'mastermind/content'
-require 'mastermind/result_converter'
-require 'mastermind/code'
+require 'mastermind/console'
 
 module Mastermind
   
   class Controller
     
-    attr_accessor :content, :input, :output, :game, :input_parser, :result_converter
+    attr_accessor :game, :console
     
-    def initialize(input=STDIN, output=STDOUT, game=Mastermind::Game.new)
-      @input = input
-      @output = output
+    def initialize(game=Mastermind::Game.new, console = Mastermind::Console.new)
+      @console = console
       @game = game
-      @input_parser = Mastermind::CodeParser.new
-      @result_converter = Mastermind::ResultConverter.new
-      @content = Mastermind::Content.new
     end
     
+    
+    # # don't start a new game until the current one is over
+    # console.get_valid_guess
+    # console.start_a_new_game?
+    # def start_a_new_game?
+    #   user_input = gets.downcase.chomp
+    #   user_input == 'i' || user_input == 'n'
+    # end
+    # console.output_header(game.size)
+    
+    
     def start_game
-      print_header
+      console.display_header(game.size)
       
-      until game.over?
-        output.print("\n" + content.number_of_remaining_guesses(game.number_of_remaining_guesses))
-        output.print(content.input_message)
-        
-        user_input = (input.gets).downcase.chomp
-
-        if user_input == 'i'
-          output.print(content.result_explaination)
-        elsif user_input == 'n'
-          game.reset_game
-          output.print(content.new_game)
-        else
-          guess = input_parser.parse(user_input)
+      new_game = true
+      while(new_game)
+        game.reset_game
+        until game.over?
+          guess = console.get_user_input(game.number_of_remaining_guesses)
       
           if is_valid_guess(guess)
             submit_guess(guess)
           else
-            output.print(content.bad_input << "\n")
+            console.display_bad_input
           end
-        end
-      end
       
-      print_game_result
-    end
-    
-    def submit_guess(guess)
-      guess_code = Mastermind::Code.new(guess)
-      if game.has_guess_been_submitted?(guess_code)
-        output.print(content.already_submitted_guess)            
-      else
-        result = game.submit_guess(guess_code)
-        result_output = result_converter.to_string(result)
-        output.print(result_output << "\n")
+        end   
+        display_game_result
+        
+        new_game = console.new_game?
       end
     end
     
-    def print_header
-      output.print(content.welcome_message)
-      output.print(content.result_explaination(game.size))
-      output.print(content.separator)      
-    end
-    
-    def is_valid_guess(guess)
-      return guess && guess.size == @game.size
+    private
+    def submit_guess(guess)
+      if game.has_guess_been_submitted?(guess)
+        console.display_guess_already_submitted
+      else
+        result = game.submit_guess(guess)
+        console.display_guess_result(result)
+      end
     end
         
-    def print_game_result
-      if game.player_win?
-        output.print(content.win_message)
+    def is_valid_guess(guess)
+      return guess && guess.size == game.size
+    end
+        
+    def display_game_result
+      if game.has_winner?
+        console.display_win_message
       else
-        output.print(content.lose_message(game.secret_code.to_s))
+        console.display_lose_message(game.secret_code)
       end
-      output.print("\n")      
     end
 
   end
