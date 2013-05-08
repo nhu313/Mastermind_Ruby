@@ -45,7 +45,7 @@ describe Mastermind::Console do
   
   describe "getting user input for guess" do
   
-    it "displays guesses and ask for user input" do
+    it "displays the number of remaining guesses" do
       number_of_remaining_guesses = 3
 
       message = "You have 3 guess(es) left. Please enter your guess.\n"
@@ -55,7 +55,7 @@ describe Mastermind::Console do
       @output.string.should == message
     end
   
-    it "gets input" do
+    it "reads user input" do
       user_input = "1 2 3"
       code = Mastermind::Code.new([1, 2, 3])
       @input.should_receive(:gets).and_return(user_input)

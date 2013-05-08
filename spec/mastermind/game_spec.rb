@@ -9,15 +9,24 @@ describe Mastermind::Game do
   end
   
   describe "initial state" do
-    it "tests the default game size is the same on the one in the property file" do
+    it "tests the default game size is the same as the constant" do
       @game = Mastermind::Game.new
       @game.size.should == Mastermind::Game::SIZE
+    end
+    
+    it "tests the default number of guess is the same as the constant" do
+      @game = Mastermind::Game.new
       @game.number_of_remaining_guesses.should == Mastermind::Game::NUMBER_OF_GUESSES
     end
     
-    it "starts with 5 guesses remaining" do
+    it "starts with the number of guesses passed in the the constructor" do
       @game.number_of_remaining_guesses.should == @number_of_guesses
     end
+    
+    it "game size is the same sa the one passed in the the constructor" do
+      @game.size.should == @size
+    end
+    
   end
   
   describe "number of remaining guesses" do
@@ -27,10 +36,7 @@ describe Mastermind::Game do
     end
   
     it "does nothing when number of remaining guess is 0" do
-      @number_of_guesses.times do |i| # loops 0 through 4
-        # (0..@number_of_guesses).each do |i| # loops 0 through 5
-        # (0...@number_of_guesses).each do |i| # loops 0 through 4
-        # 0.upto(@number_of_guesses) do |i| # loops 0 through 5
+      @number_of_guesses.times do |i| 
         @game.submit_guess(Mastermind::Code.new([i]))
       end
       @game.number_of_remaining_guesses.should == 0    
@@ -54,7 +60,7 @@ describe Mastermind::Game do
       @game.submitted_guesses.should == [guess]
     end
   
-    it "remembers all my guess" do
+    it "remembers all my guesses" do
       guesses = [Mastermind::Code.new([1,2]), 
       Mastermind::Code.new([4,9]), 
       Mastermind::Code.new([6, 9, 1])]

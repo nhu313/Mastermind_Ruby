@@ -5,11 +5,11 @@ describe Mastermind::ResultConverter do
     @converter = Mastermind::ResultConverter.new
   end
   
-  it "converts 1 exact match results" do
+  it "converts results with 1 exact match" do
     @converter.to_string([1, 0, 0]).should == "[b]"
   end
 
-  it "converts all exact match results for 1+" do
+  it "converts all exact match" do
     @converter.to_string([3, 0, 0]).should == "[b b b]"
   end
   

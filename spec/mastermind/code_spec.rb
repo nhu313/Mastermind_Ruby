@@ -55,7 +55,7 @@ describe Mastermind::Code do
       results_for(@secret_values, [5, 1, 1]).incorrect_position_match.should == 1
     end
     
-    it "is 2 when 2 pegg match the position and all the other pegs are in the wrong positions" do
+    it "is 2 when 2 pegs match the position and all the other peg is in incorrect" do
       results_for(@secret_values, [5, 7, 1]).incorrect_position_match.should == 2
     end
     
@@ -97,7 +97,7 @@ describe Mastermind::Code do
       results.no_match == 2
     end
   
-    it "counts match in the wrong position when there are 2 matches of 2 numbers" do
+    it "counts match in the wrong position when there are 3 pegs of the same number but the guess has 2 pegs" do
       guess = [1, 1, 1, 2, 2]
       secret_values = [2, 2, 2, 1, 1]
       results = results_for(secret_values, guess)

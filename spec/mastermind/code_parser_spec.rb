@@ -5,7 +5,7 @@ describe Mastermind::CodeParser do
     @parser = Mastermind::CodeParser.new
   end
   
-  describe "parse guesses input" do
+  describe "parse good input" do
     it "parses correct code input" do
       input = "0 1 2 3 4"
       @parser.parse(input).should == Mastermind::Code.new([0, 1, 2, 3, 4])
