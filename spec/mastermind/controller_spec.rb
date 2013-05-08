@@ -69,7 +69,7 @@ describe Mastermind::Controller do
     @controller.start_game
   end
   
-  it "displays a message notifying the user enter bad input when the input does not match the game code size" do
+  it "displays a message notifying the user entered bad input when the input does not match the game code size" do
     size = 10
     guess = Mastermind::Code.new([4, 4, 4])
     number_of_remaining_guesses = 4
