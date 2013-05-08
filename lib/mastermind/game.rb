@@ -5,7 +5,7 @@ module Mastermind
   class Game
     
     SIZE = 4
-    NUMBER_OF_GUESSES = 10
+    NUMBER_OF_GUESSES = 2
     
     attr_accessor :number_of_guesses, :size, :code_factory, :secret_code, :submitted_guesses
     

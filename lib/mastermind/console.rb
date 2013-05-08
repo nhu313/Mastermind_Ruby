@@ -79,8 +79,8 @@ module Mastermind
    def new_game?
      output.print("Do you want to play again? Enter 'y' for yes and 'n' for no.\n")
      user_input = input.gets
-     user_input.downcase.chomp
-     "y" == user_input
+     user_input = user_input.downcase.chomp
+     'y' == user_input
    end
    
    private
