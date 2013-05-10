@@ -29,14 +29,20 @@ module Mastermind
     
     def take_guess
       guess = console.get_user_input(game.number_of_remaining_guesses)
-  
-      if !correct_size?(guess)
+
+      case error_for(guess)
+      when :incorrect_size
         console.display_bad_input
-      elsif game.has_guess_been_submitted?(guess)
+      when :already_submitted
         console.display_guess_already_submitted
       else
         submit_guess(guess)          
       end
+    end
+    
+    def error_for(guess)
+      return :incorrect_size if !correct_size?(guess)
+      return :already_submitted if game.has_guess_been_submitted?(guess)
     end
     
     def submit_guess(guess)
