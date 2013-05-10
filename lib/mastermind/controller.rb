@@ -12,50 +12,39 @@ module Mastermind
       @game = game
     end
     
-    
-    # # don't start a new game until the current one is over
-    # console.get_valid_guess
-    # console.start_a_new_game?
-    # def start_a_new_game?
-    #   user_input = gets.downcase.chomp
-    #   user_input == 'i' || user_input == 'n'
-    # end
-    # console.output_header(game.size)
-    
-    
     def start_game
       console.display_header(game.size)
-      
-      new_game = true
-      while(new_game)
-        game.reset_game
-        until game.over?
-          guess = console.get_user_input(game.number_of_remaining_guesses)
-      
-          if is_valid_guess(guess)
-            submit_guess(guess)
-          else
-            console.display_bad_input
-          end
-      
-        end   
-        display_game_result
-        
-        new_game = console.new_game?
-      end
+      start_game_without_header
     end
     
     private
-    def submit_guess(guess)
-      if game.has_guess_been_submitted?(guess)
+    
+    def start_game_without_header
+      game.reset_game
+      take_guess until game.over?
+      display_game_result
+        
+      start_game_without_header if console.new_game?      
+    end
+    
+    def take_guess
+      guess = console.get_user_input(game.number_of_remaining_guesses)
+  
+      if !correct_size?(guess)
+        console.display_bad_input
+      elsif game.has_guess_been_submitted?(guess)
         console.display_guess_already_submitted
       else
-        result = game.submit_guess(guess)
-        console.display_guess_result(result)
+        submit_guess(guess)          
       end
     end
+    
+    def submit_guess(guess)
+      result = game.submit_guess(guess)
+      console.display_guess_result(result)
+    end
         
-    def is_valid_guess(guess)
+    def correct_size?(guess)
       return guess && guess.size == game.size
     end
         

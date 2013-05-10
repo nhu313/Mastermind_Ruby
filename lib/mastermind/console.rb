@@ -24,8 +24,7 @@ module Mastermind
      Welcome to Mastermind! The game will create a secret code with 4 numbers. The number is from 
      0-9. The object of the game is for you to solve the code in 10 guesses. The numbers can 
      repeat. After entering your guess, the system will let you know if your result is correct or not.       
-     }
-     
+     }     
    end
    
    def result_explaination(size)

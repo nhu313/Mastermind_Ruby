@@ -10,6 +10,7 @@ describe Mastermind::Controller do
   
   it "displays a welcome message when the game starts" do
     size = 3
+    
     @game.should_receive(:over?).and_return(true)
     @game.should_receive(:size).and_return(size)
     @game.should_receive(:reset_game).at_least(1)
