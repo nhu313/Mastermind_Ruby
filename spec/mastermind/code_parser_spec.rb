@@ -20,11 +20,21 @@ describe Mastermind::CodeParser do
   describe "parse bad input" do
     it "returns nil if input is empty" do
       input = ""
-      @parser.parse(input).should == nil    
+      @parser.parse(input).should == nil
     end
 
     it "returns nil if input is a character" do
       input = "a"
+      @parser.parse(input).should == nil
+    end
+    
+    it "returns nil for a mix of letters and characters" do
+      input = "1 2 a 3"
+      @parser.parse(input).should == nil
+    end
+    
+    it "returns nil for only white space" do
+      input = "         "
       @parser.parse(input).should == nil
     end
   end

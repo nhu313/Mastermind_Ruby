@@ -2,15 +2,13 @@ require 'mastermind/code'
 
 module Mastermind
   
+  NONDIGIT_OR_NONWHITESPACE = /[^\d^\s]/
+  
   class CodeParser
     def parse(input)
-      parse_input = []
-      
-      input.split.each do |num|
-        parse_input << num.to_i if num =~ /\d/
-      end
-      
-      parse_input.size > 0 ? Mastermind::Code.new(parse_input) : nil
+      return nil if input.strip.empty?
+      return nil if input.match(NONDIGIT_OR_NONWHITESPACE)
+      Mastermind::Code.new(input.split.map(&:to_i))
     end
   end
   
