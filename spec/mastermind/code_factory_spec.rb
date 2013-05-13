@@ -1,4 +1,4 @@
-require 'mastermind/spec_helper'
+require 'mastermind/code_factory'
 
 describe Mastermind::CodeFactory do
   

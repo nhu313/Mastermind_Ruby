@@ -1,4 +1,5 @@
-require 'mastermind/spec_helper'
+require 'mastermind/game'
+require 'mastermind/code'
 
 describe Mastermind::Game do
   

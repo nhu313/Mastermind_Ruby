@@ -1,4 +1,4 @@
-require 'mastermind/spec_helper'
+require 'mastermind/code'
 
 describe Mastermind::Code do      
 

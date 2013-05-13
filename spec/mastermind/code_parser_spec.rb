@@ -1,4 +1,5 @@
-require 'mastermind/spec_helper'
+require 'mastermind/code_parser'
+require 'mastermind/code'
 
 describe Mastermind::CodeParser do
   before(:each) do

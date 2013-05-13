@@ -1,4 +1,6 @@
-require 'mastermind/spec_helper'
+require 'mastermind/code_parser'
+require 'mastermind/console'
+require 'mastermind/code'
 
 describe Mastermind::Console do
   

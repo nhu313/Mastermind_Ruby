@@ -1,4 +1,5 @@
-require 'mastermind/spec_helper'
+require 'mastermind/console'
+require 'mastermind/controller'
 
 describe Mastermind::Controller do
   before(:each) do
